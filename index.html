@@ -16,31 +16,88 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background: linear-gradient(135deg, #f0f8ff 0%, #e0efff 100%);
+      background: linear-gradient(135deg, #0a1628 0%, #1a2a4a 50%, #0d1f3c 100%);
       font-family: 'Georgia', serif;
       overflow: hidden;
     }
     
+    /* Estrellas de fondo */
+    .stars {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+    
+    .star {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      animation: twinkle 2s infinite;
+    }
+    
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.3; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.2); }
+    }
+    
+
+    
     .envelope-container {
       position: relative;
-      width: 320px;
-      height: 220px;
+      width: 340px;
+      height: 240px;
       cursor: pointer;
       perspective: 1000px;
+      z-index: 10;
     }
     
     .envelope {
       position: relative;
       width: 100%;
       height: 100%;
-      background: linear-gradient(145deg, #87ceeb 0%, #6bb3d9 100%);
-      border-radius: 10px;
-      box-shadow: 0 15px 40px rgba(100, 150, 200, 0.4);
-      transition: transform 0.3s ease;
+      background: linear-gradient(145deg, #4a90d9 0%, #2e6ab3 100%);
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(74, 144, 217, 0.5), 0 0 40px rgba(74, 144, 217, 0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
     
     .envelope:hover {
-      transform: scale(1.02);
+      transform: scale(1.03);
+      box-shadow: 0 25px 70px rgba(74, 144, 217, 0.6), 0 0 60px rgba(74, 144, 217, 0.4);
+    }
+    
+    /* Sello de corazón */
+    .seal {
+      position: absolute;
+      bottom: 50%;
+      left: 50%;
+      transform: translate(-50%, 50%);
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(145deg, #ff6b8a, #e84a6f);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 28px;
+      box-shadow: 0 4px 15px rgba(232, 74, 111, 0.5);
+      z-index: 15;
+      transition: all 0.3s ease;
+      animation: pulse-seal 2s infinite;
+    }
+    
+    @keyframes pulse-seal {
+      0%, 100% { box-shadow: 0 4px 15px rgba(232, 74, 111, 0.5); }
+      50% { box-shadow: 0 4px 25px rgba(232, 74, 111, 0.8), 0 0 40px rgba(232, 74, 111, 0.4); }
+    }
+    
+    .envelope-container.open .seal {
+      opacity: 0;
+      transform: translate(-50%, 50%) scale(0);
     }
     
     .envelope-flap {
@@ -49,10 +106,10 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(145deg, #5a9fd4 0%, #4a8bc4 100%);
-      clip-path: polygon(0 0, 50% 55%, 100% 0);
+      background: linear-gradient(145deg, #3a7bc8 0%, #2558a3 100%);
+      clip-path: polygon(0 0, 50% 60%, 100% 0);
       transform-origin: top center;
-      transition: transform 0.6s ease-in-out;
+      transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
       z-index: 10;
     }
     
@@ -66,71 +123,122 @@
       top: 30px;
       left: 50%;
       transform: translateX(-50%);
-      width: 280px;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      width: 300px;
+      background: linear-gradient(180deg, #ffffff 0%, #f8faff 100%);
+      border-radius: 10px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
       padding: 25px 20px;
       opacity: 0;
-      transition: all 0.5s ease-in-out 0.3s;
+      transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.3s;
       z-index: 5;
-      max-height: 300px;
+      max-height: 420px;
       overflow-y: auto;
     }
     
+    .letter::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    .letter::-webkit-scrollbar-track {
+      background: #f0f0f0;
+      border-radius: 3px;
+    }
+    
+    .letter::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #4a90d9, #2e6ab3);
+      border-radius: 3px;
+    }
+    
     .envelope-container.open .letter {
-      top: -180px;
+      top: -280px;
       opacity: 1;
     }
     
+    .birthday-title {
+      text-align: center;
+      font-size: 1.1em;
+      color: #e84a6f;
+      margin-bottom: 5px;
+      animation: sparkle 1.5s infinite;
+    }
+    
+    @keyframes sparkle {
+      0%, 100% { text-shadow: 0 0 5px rgba(232, 74, 111, 0.5); }
+      50% { text-shadow: 0 0 20px rgba(232, 74, 111, 0.8), 0 0 30px rgba(232, 74, 111, 0.4); }
+    }
+    
     .letter h2 {
-      color: #4a8bc4;
+      color: #2e6ab3;
       text-align: center;
-      margin-bottom: 10px;
-      font-size: 1.4em;
-    }
-    
-    .letter .greeting {
-      text-align: center;
-      color: #666;
       margin-bottom: 15px;
-      font-size: 0.95em;
+      font-size: 1.5em;
     }
     
-    .letter p {
-      color: #555;
-      line-height: 1.6;
+    .heart-emoji {
+      display: inline-block;
+      animation: beat 1s infinite;
+    }
+    
+    @keyframes beat {
+      0%, 100% { transform: scale(1); }
+      25% { transform: scale(1.1); }
+      40% { transform: scale(1); }
+      60% { transform: scale(1.1); }
+    }
+    
+    .letter-content {
+      color: #444;
+      line-height: 1.7;
       text-align: justify;
-      font-size: 0.85em;
+      font-size: 0.82em;
+    }
+    
+    .letter-content p {
+      margin-bottom: 12px;
+    }
+    
+    .letter-content .firma {
+      text-align: center;
+      margin-top: 15px;
+      color: #2e6ab3;
+      font-style: italic;
+    }
+    
+    .letter-content .pd {
+      margin-top: 15px;
+      font-size: 0.9em;
+      color: #555;
     }
     
     .close-btn {
       display: block;
-      margin: 20px auto 0;
-      padding: 10px 25px;
-      background: linear-gradient(145deg, #5a9fd4, #4a8bc4);
+      margin: 20px auto 5px;
+      padding: 12px 30px;
+      background: linear-gradient(145deg, #4a90d9, #2e6ab3);
       color: white;
       border: none;
       border-radius: 25px;
       cursor: pointer;
-      font-size: 0.9em;
+      font-size: 0.95em;
       transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(74, 139, 196, 0.4);
+      box-shadow: 0 4px 20px rgba(46, 106, 179, 0.4);
     }
     
     .close-btn:hover {
       transform: scale(1.05);
-      box-shadow: 0 6px 20px rgba(74, 139, 196, 0.6);
+      box-shadow: 0 6px 30px rgba(46, 106, 179, 0.6);
     }
     
     .click-hint {
       position: absolute;
-      bottom: -40px;
+      bottom: -50px;
       left: 50%;
       transform: translateX(-50%);
-      color: #5a9fd4;
-      font-size: 0.85em;
+      color: #87ceeb;
+      font-size: 0.9em;
+      text-shadow: 0 0 10px rgba(135, 206, 235, 0.5);
       animation: bounce 1.5s infinite;
+      white-space: nowrap;
     }
     
     .envelope-container.open .click-hint {
@@ -139,21 +247,20 @@
     
     @keyframes bounce {
       0%, 100% { transform: translateX(-50%) translateY(0); }
-      50% { transform: translateX(-50%) translateY(-5px); }
+      50% { transform: translateX(-50%) translateY(-8px); }
     }
     
-    /* Confetti */
+    /* Confetti y corazones */
     .confetti {
       position: fixed;
-      width: 10px;
-      height: 10px;
       top: -10px;
       opacity: 0;
       pointer-events: none;
+      z-index: 100;
     }
     
     .confetti.active {
-      animation: confetti-fall 3s ease-out forwards;
+      animation: confetti-fall 4s ease-out forwards;
     }
     
     @keyframes confetti-fall {
@@ -169,66 +276,110 @@
       }
     }
     
-    .heart-emoji {
-      display: inline-block;
-      animation: pulse 1s infinite;
-    }
-    
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.2); }
-    }
+
   </style>
 </head>
 <body>
+  <div class="stars" id="stars"></div>
+
+  
   <div class="envelope-container" id="envelope" onclick="openEnvelope()">
     <div class="envelope">
+
       <div class="envelope-flap"></div>
+      <div class="seal">💙</div>
       <div class="letter">
-        <h2>Para Tii<span class="heart-emoji">💙</span></h2>
-        <p class="greeting">Hola mi amor</p>
-        <p> Hola mi amor, creo que esto de las cartas ya va a ser tradición (nomas espero que no sea porque estamos lejos) pero si no es por eso, me gusta la idea fíjate. Aunque no lo creas no soy tan cursi como para hacer cartas, osea si soy cursi al 1000 pero eso de dejar pruebas de que tengo sentimientos está canijo, aunque por ti lo vale y por eso estamos aquí. <br><br> Quiero que sepas que yo sé que tenemos muuy poquito tiempo de conocernos y que sí parece que omití intro pero la verdad me lo hiciste inevitable, así que técnicamente tú tienes la culpa si lo piensas. Cuando digo lo de lo inevitable es porque enserio eres una de las personas más hermosas que he conocido, no solo físicamente (también) sino tú, osea tienes una personalidad que desde el día uno de tratarte bien me hizo saber que serías alguien importante en mi vida (en ese momento no sabía en qué sentido pero quién soy yo para negarme). <br><br> Ya sé que tu lado chismoso quiere más detalles pero esq literal me gusta todo de ti, desde tus chistes malísimos que a la vez son buenísimos de lo malos que son; como siempre ayudas a todos aunque no te caigan bien nomas porque los tratas como te gustaría que te traten; el buen amigo que eres; como eres tan bueno para animar a las personas aunque parezca que no jajaja (siempre las terminas haciendo reír, puedo juzgar tus métodos pero no tus resultados). <br><br> Amo que me cuentes cosas que recuerdas de mí, como el día que nos conocimos lo de los lentes o como me concentro, pero en general amo que me cuentes cualquier cosa. Me encanta que hablar contigo nunca se ha sentido forzado y que la conversación nunca termina, aunque de hecho también amo que los silencios contigo son muy cómodos. Amo lo segura que siempre me haces sentir, me encanta tu risa burlona, tu capacidad para no dejarme estar enojada contigo ni por 5 minutos. <br><br> Lo valiente que eres como para ser foráneo wtf (soy tu fan), tu olor, que tienes bien suavecito el cabello, como defiendes a tu barba de las chamacas jajaja (de hecho tú te ves bien de cualquier manera, síguete defendiendo). <br><br> Ya había dicho lo de buen amigo pero esq literal no sabía si estábamos coqueteando porque con todos eres igual de precioso y está bien bello eso. Aunque ya que andamos en esas, también amo que aunque eres bien bello con todos, aveces sí se notaban las diferencias que hacías conmigo y ni quien me aguantara la verdad. <br><br> Eso me lleva a que me encanta lo fácil que me puedes volar (cuando dije que tú me vuelas nomas con existir no estaba exagerando). Amo que por mucho tiempo no quise intentar nada con nadie porque ninguno valía la pena ni siquiera para conocerlos, pero contigo no tuve que hacer nada, solo convivir contigo y ya me tenías poniéndome celosa por una random siendo que literal no tenía ni tengo derecho sobre ti. <br><br> Amo que me enseñaras a manejar JAJAJA eres muy buen maestro mi amor, aquí la que falló fue la alumna. Amo que cuando choqué todavía te pusiste tú a tranquilizarme a mí cuando debió ser al revés. Amo que le hablaras a Jairo de mí como yo le hablé a Celeste de ti. Amo que confío en ti (lo de tóxica es una nueva actualización a la que me estoy acostumbrando y nomas es porque me encanta dejar claro que eres mío). Pero enserio confío en ti. <br><br> Ni de loca intentaría algo a distancia con alguien en quien no confío y eso también dice mucho de ti, ¿cómo le hiciste para que confiara tanto en tan poco tiempo? Pasa tips o algo. <br><br> Ya había dicho que tu olor? me vale, tu olor merece estar dos veces. Amo como cada vez te hacías más bueno abrazando pero a la vez me agüita porque ese último fue el mejor de todos y nunca hubiera querido tener un último. Amo que cada vez era más difícil soltarte o inventarme una excusa para abrazarte más. <br><br> Amo que me stalkees en todos lados, todas y cada una de las canciones que me dedicas, amo que cuando me dices algo cursi me dejes en blanco y lo único que me queda es decir una babosada, pero nunca dudes de lo mucho que me haces sentir con tus cursilerías. Por cierto amo que seas cursi conmigo y poder serlo contigo. <br><br> Amo traer tus sudaderas porque aparte de tu olor (si, se merece estar tres veces) me hacían sentir más cerca de ti. Amo que no te importe desvelarte para hablar conmigo, amo que ya era una de tus prioridades antes de ser más que amigos. Amo que estés intentando algo con alguien que no vas a ver en un año (te falla no?) pero gracias por eso.<br><br> Podría durar años escribiendo lo que amo de ti pero justamente ya me vas a marcar entonces prioridades corazón. Te lo resumo en que amo todo lo que eres y haces. Gracias por dejarme ser parte de la vida de una persona tan maravillosa como tú y espero de verdad poder seguir contigo cada año de tu vida y actualizarte esta carta. <br><br> Te quiero muchísimo más de lo que las palabras podrían decirte pero intentaré demostrártelo cada día. Espero que seas muy feliz pero no solo hoy, sino siempre. <br><br> Te quiero mi amor. <br><br> <b>PD:</b> Más te vale durarme hasta que estemos viejitos, ¿va que va?<br> <b>PD2:</b> Oye al parecer no se me dan tan mal las cartas eh, chécate eso 💙 </p>
-        <button class="close-btn" onclick="closeEnvelope(event)">Cerrar 💌</button>
+        <div class="birthday-title">✨ ¡Feliz Cumpleaños! ✨</div>
+        <h2>Para Ti <span class="heart-emoji">💙</span></h2>
+        <div class="letter-content">
+          <p>Hola mi amor, creo que esto de las cartas ya va a ser tradición (nomas espero que no sea porque estamos lejos) pero si no es por eso, me gusta la idea fíjate. Aunque no lo creas no soy tan cursi como para hacer cartas, osea si soy cursi al 1000 pero eso de dejar pruebas de que tengo sentimientos está canijo, aunque por ti lo vale y por eso estamos aquí.</p>
+          
+          <p>Quiero que sepas que yo sé que tenemos muuy poquito tiempo de conocernos y que sí parece que omití intro pero la verdad me lo hiciste inevitable, así que técnicamente tú tienes la culpa si lo piensas. Cuando digo lo de lo inevitable es porque enserio eres una de las personas más hermosas que he conocido, no solo físicamente (también) sino tú, osea tienes una personalidad que desde el día uno de tratarte bien me hizo saber que serías alguien importante en mi vida (en ese momento no sabía en qué sentido pero quién soy yo para negarme).</p>
+          
+          <p>Ya sé que tu lado chismoso quiere más detalles pero esq literal me gusta todo de ti, desde tus chistes malísimos que a la vez son buenísimos de lo malos que son; como siempre ayudas a todos aunque no te caigan bien nomas porque los tratas como te gustaría que te traten; el buen amigo que eres; como eres tan bueno para animar a las personas aunque parezca que no jajaja (siempre las terminas haciendo reír, puedo juzgar tus métodos pero no tus resultados).</p>
+          
+          <p>Amo que me cuentes cosas que recuerdas de mí, como el día que nos conocimos lo de los lentes o como me concentro, pero en general amo que me cuentes cualquier cosa. Me encanta que hablar contigo nunca se ha sentido forzado y que la conversación nunca termina, aunque de hecho también amo que los silencios contigo son muy cómodos. Amo lo segura que siempre me haces sentir, me encanta tu risa burlona, tu capacidad para no dejarme estar enojada contigo ni por 5 minutos.</p>
+          
+          <p>Lo valiente que eres como para ser foráneo wtf (soy tu fan), tu olor, que tienes bien suavecito el cabello, como defiendes a tu barba de las chamacas jajaja (de hecho tú te ves bien de cualquier manera, síguete defendiendo).</p>
+          
+          <p>Ya había dicho lo de buen amigo pero esq literal no sabía si estábamos coqueteando porque con todos eres igual de precioso y está bien bello eso. Aunque ya que andamos en esas, también amo que aunque eres bien bello con todos, aveces sí se notaban las diferencias que hacías conmigo y ni quien me aguantara la verdad.</p>
+          
+          <p>Eso me lleva a que me encanta lo fácil que me puedes volar (cuando dije que tú me vuelas nomas con existir no estaba exagerando). Amo que por mucho tiempo no quise intentar nada con nadie porque ninguno valía la pena ni siquiera para conocerlos, pero contigo no tuve que hacer nada, solo convivir contigo y ya me tenías poniéndome celosa por una random siendo que literal no tenía ni tengo derecho sobre ti.</p>
+          
+          <p>Amo que me enseñaras a manejar JAJAJA eres muy buen maestro mi amor, aquí la que falló fue la alumna. Amo que cuando choqué todavía te pusiste tú a tranquilizarme a mí cuando debió ser al revés. Amo que le hablaras a Jairo de mí como yo le hablé a Celeste de ti. Amo que confío en ti (lo de tóxica es una nueva actualización a la que me estoy acostumbrando y nomas es porque me encanta dejar claro que eres mío). Pero enserio confío en ti.</p>
+          
+          <p>Ni de loca intentaría algo a distancia con alguien en quien no confío y eso también dice mucho de ti, ¿cómo le hiciste para que confiara tanto en tan poco tiempo? Pasa tips o algo.</p>
+          
+          <p>Ya había dicho que tu olor? me vale, tu olor merece estar dos veces. Amo como cada vez te hacías más bueno abrazando pero a la vez me agüita porque ese último fue el mejor de todos y nunca hubiera querido tener un último. Amo que cada vez era más difícil soltarte o inventarme una excusa para abrazarte más.</p>
+          
+          <p>Amo que me stalkees en todos lados, todas y cada una de las canciones que me dedicas, amo que cuando me dices algo cursi me dejes en blanco y lo único que me queda es decir una babosada, pero nunca dudes de lo mucho que me haces sentir con tus cursilerías. Por cierto amo que seas cursi conmigo y poder serlo contigo.</p>
+          
+          <p>Amo traer tus sudaderas porque aparte de tu olor (si, se merece estar tres veces) me hacían sentir más cerca de ti. Amo que no te importe desvelarte para hablar conmigo, amo que ya era una de tus prioridades antes de ser más que amigos. Amo que estés intentando algo con alguien que no vas a ver en un año (te falla no?) pero gracias por eso.</p>
+          
+          <p>Podría durar años escribiendo lo que amo de ti pero justamente ya me vas a marcar entonces prioridades corazón. Te lo resumo en que amo todo lo que eres y haces. Gracias por dejarme ser parte de la vida de una persona tan maravillosa como tú y espero de verdad poder seguir contigo cada año de tu vida y actualizarte esta carta.</p>
+          
+          <p>Te quiero muchísimo más de lo que las palabras podrían decirte pero intentaré demostrártelo cada día. Espero que seas muy feliz pero no solo hoy, sino siempre.</p>
+          
+          <p class="firma">Te quiero mi amor 💙</p>
+          
+          <p class="pd"><b>PD:</b> Más te vale durarme hasta que estemos viejitos, ¿va que va?</p>
+          <p class="pd"><b>PD2:</b> Oye al parecer no se me dan tan mal las cartas eh, chécate eso</p>
+        </div>
+        <button class="close-btn" onclick="closeEnvelope(event)">Cerrar</button>
       </div>
     </div>
-    <span class="click-hint">✨ Click para abrir ✨</span>
+    <span class="click-hint">💙 Nomas dale click literal 💙</span>
   </div>
 
   <script>
-    const colors = ['#4a8bc4', '#87ceeb', '#5a9fd4', '#6bb3d9', '#1e90ff', '#00bfff', '#add8e6', '#b0e0e6'];
-    const shapes = ['circle', 'square', 'triangle'];
+    // Crear estrellas
+    const starsContainer = document.getElementById('stars');
+    for (let i = 0; i < 80; i++) {
+      const star = document.createElement('div');
+      star.className = 'star';
+      star.style.left = Math.random() * 100 + 'vw';
+      star.style.top = Math.random() * 100 + 'vh';
+      star.style.width = (Math.random() * 3 + 1) + 'px';
+      star.style.height = star.style.width;
+      star.style.animationDelay = Math.random() * 2 + 's';
+      star.style.animationDuration = (Math.random() * 2 + 1) + 's';
+      starsContainer.appendChild(star);
+    }
+    
+
+    
+    const confettiColors = ['#4a90d9', '#87ceeb', '#5a9fd4', '#6bb3d9', '#1e90ff', '#00bfff', '#ff6b8a', '#e84a6f', '#ffd700', '#ffffff'];
+    const shapes = ['circle', 'square', 'heart'];
     
     function createConfetti() {
-      for (let i = 0; i < 50; i++) {
+      for (let i = 0; i < 80; i++) {
         setTimeout(() => {
           const confetti = document.createElement('div');
           confetti.className = 'confetti';
           confetti.style.left = Math.random() * 100 + 'vw';
-          confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-          confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
-          confetti.style.animationDelay = Math.random() * 0.5 + 's';
           
           const shape = shapes[Math.floor(Math.random() * shapes.length)];
-          if (shape === 'circle') {
-            confetti.style.borderRadius = '50%';
-          } else if (shape === 'triangle') {
-            confetti.style.width = '0';
-            confetti.style.height = '0';
-            confetti.style.borderLeft = '5px solid transparent';
-            confetti.style.borderRight = '5px solid transparent';
-            confetti.style.borderBottom = '10px solid ' + colors[Math.floor(Math.random() * colors.length)];
-            confetti.style.backgroundColor = 'transparent';
+          const color = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+          
+          if (shape === 'heart') {
+            confetti.textContent = ['💙', '🩵', '💕', '✨'][Math.floor(Math.random() * 4)];
+            confetti.style.fontSize = (Math.random() * 15 + 10) + 'px';
+          } else {
+            confetti.style.backgroundColor = color;
+            confetti.style.width = (Math.random() * 12 + 6) + 'px';
+            confetti.style.height = (Math.random() * 12 + 6) + 'px';
+            if (shape === 'circle') {
+              confetti.style.borderRadius = '50%';
+            }
           }
           
-          confetti.style.width = (Math.random() * 10 + 5) + 'px';
-          confetti.style.height = (Math.random() * 10 + 5) + 'px';
+          confetti.style.animationDuration = (Math.random() * 2 + 3) + 's';
+          confetti.style.animationDelay = Math.random() * 0.5 + 's';
           
           document.body.appendChild(confetti);
-          
           setTimeout(() => confetti.classList.add('active'), 10);
-          
-          setTimeout(() => confetti.remove(), 3500);
-        }, i * 30);
+          setTimeout(() => confetti.remove(), 4500);
+        }, i * 25);
       }
     }
     
