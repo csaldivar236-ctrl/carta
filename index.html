@@ -1,163 +1,250 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>Carta Animada</title>
-
-<!-- Tipografía -->
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
-
-<style>
-body{
-    margin:0;
-    padding:0;
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background: linear-gradient(135deg, #8ec5fc, #6bb5ff);
-    font-family: 'Quicksand', sans-serif;
-}
-
-/* Contenedor general */
-.contenedor {
-    position: relative;
-    width: 350px;
-    height: 260px;
-    cursor: pointer;
-}
-
-/* Sobre */
-.sobre {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: #ffffff;
-    border: 3px solid #a8cfff;
-    border-radius: 15px;
-    overflow: hidden;
-    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.25);
-    transition: transform 0.7s ease;
-}
-
-/* Tapa del sobre */
-.tapa {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 50%;
-    background: #d9e8ff;
-    border-bottom: 3px solid #a8cfff;
-    border-radius: 15px 15px 0 0;
-    transform-origin: top;
-    transition: transform 0.7s ease;
-    z-index: 3;
-}
-
-/* Carta */
-.carta {
-    position: absolute;
-    top: 45%;
-    left: 50%;
-    width: 85%;
-    max-height: 80vh; /* Máximo alto visible en pantalla */
-    transform: translateX(-50%);
-    background: #ffffff;
-    border-radius: 15px;
-    border: 2px solid #a8cfff;
-    padding: 20px;
-    text-align: left;
-    font-family: 'Playfair Display', serif;
-    font-size: 14px;
-    line-height: 1.4;
-    box-shadow: 0px 5px 15px rgba(0,0,0,0.15);
-    transition: top 0.9s ease;
-    z-index: 2;
-    overflow-y: auto; /* Scroll solo si es necesario */
-}
-
-
-/* Título */
-.carta h2 {
-    color: #5a8bd6;
-    text-align: center;
-    margin-top: 0;
-}
-
-/* Botón cerrar */
-.boton-cerrar {
-    display:block;
-    margin: 10px auto 0 auto;
-    padding: 8px 15px;
-    background: #5a8bd6;
-    color:#fff;
-    border:none;
-    border-radius:8px;
-    cursor:pointer;
-    font-weight:bold;
-    transition: background 0.3s;
-}
-.boton-cerrar:hover{
-    background:#4171b8;
-}
-
-/* Animación al abrir */
-.contenedor.abierto .tapa {
-    transform: rotateX(-120deg);
-}
-.contenedor.abierto .carta {
-    top: -20%;
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carta #1</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #f0f8ff 0%, #e0efff 100%);
+      font-family: 'Georgia', serif;
+      overflow: hidden;
+    }
+    
+    .envelope-container {
+      position: relative;
+      width: 320px;
+      height: 220px;
+      cursor: pointer;
+      perspective: 1000px;
+    }
+    
+    .envelope {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(145deg, #87ceeb 0%, #6bb3d9 100%);
+      border-radius: 10px;
+      box-shadow: 0 15px 40px rgba(100, 150, 200, 0.4);
+      transition: transform 0.3s ease;
+    }
+    
+    .envelope:hover {
+      transform: scale(1.02);
+    }
+    
+    .envelope-flap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(145deg, #5a9fd4 0%, #4a8bc4 100%);
+      clip-path: polygon(0 0, 50% 55%, 100% 0);
+      transform-origin: top center;
+      transition: transform 0.6s ease-in-out;
+      z-index: 10;
+    }
+    
+    .envelope-container.open .envelope-flap {
+      transform: rotateX(180deg);
+      z-index: 1;
+    }
+    
+    .letter {
+      position: absolute;
+      top: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 280px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      padding: 25px 20px;
+      opacity: 0;
+      transition: all 0.5s ease-in-out 0.3s;
+      z-index: 5;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    
+    .envelope-container.open .letter {
+      top: -180px;
+      opacity: 1;
+    }
+    
+    .letter h2 {
+      color: #4a8bc4;
+      text-align: center;
+      margin-bottom: 10px;
+      font-size: 1.4em;
+    }
+    
+    .letter .greeting {
+      text-align: center;
+      color: #666;
+      margin-bottom: 15px;
+      font-size: 0.95em;
+    }
+    
+    .letter p {
+      color: #555;
+      line-height: 1.6;
+      text-align: justify;
+      font-size: 0.85em;
+    }
+    
+    .close-btn {
+      display: block;
+      margin: 20px auto 0;
+      padding: 10px 25px;
+      background: linear-gradient(145deg, #5a9fd4, #4a8bc4);
+      color: white;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 0.9em;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(74, 139, 196, 0.4);
+    }
+    
+    .close-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(74, 139, 196, 0.6);
+    }
+    
+    .click-hint {
+      position: absolute;
+      bottom: -40px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #5a9fd4;
+      font-size: 0.85em;
+      animation: bounce 1.5s infinite;
+    }
+    
+    .envelope-container.open .click-hint {
+      opacity: 0;
+    }
+    
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(-5px); }
+    }
+    
+    /* Confetti */
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      top: -10px;
+      opacity: 0;
+      pointer-events: none;
+    }
+    
+    .confetti.active {
+      animation: confetti-fall 3s ease-out forwards;
+    }
+    
+    @keyframes confetti-fall {
+      0% {
+        opacity: 1;
+        top: -10px;
+        transform: rotate(0deg) scale(1);
+      }
+      100% {
+        opacity: 0;
+        top: 100vh;
+        transform: rotate(720deg) scale(0.5);
+      }
+    }
+    
+    .heart-emoji {
+      display: inline-block;
+      animation: pulse 1s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+  </style>
 </head>
 <body>
-
-<div class="contenedor" id="contenedor">
-    <div class="tapa"></div>
-    <div class="sobre"></div>
-
-    <div class="carta">
-        <h2>Para tiii</h2>
-        <p> Hola mi amor, creo que esto de las cartas ya va a ser tradición (nomas espero que no sea porque estamos lejos) pero si no es por eso, me gusta la idea fíjate. Aunque no lo creas no soy tan cursi como para hacer cartas, osea si soy cursi al 1000 pero eso de dejar pruebas de que tengo sentimientos está canijo, aunque por ti lo vale y por eso estamos aquí. <br><br> Quiero que sepas que yo sé que tenemos muuy poquito tiempo de conocernos y que sí parece que omití intro pero la verdad me lo hiciste inevitable, así que técnicamente tú tienes la culpa si lo piensas. Cuando digo lo de lo inevitable es porque enserio eres una de las personas más hermosas que he conocido, no solo físicamente (también) sino tú, osea tienes una personalidad que desde el día uno de tratarte bien me hizo saber que serías alguien importante en mi vida (en ese momento no sabía en qué sentido pero quién soy yo para negarme). <br><br> Ya sé que tu lado chismoso quiere más detalles pero esq literal me gusta todo de ti, desde tus chistes malísimos que a la vez son buenísimos de lo malos que son; como siempre ayudas a todos aunque no te caigan bien nomas porque los tratas como te gustaría que te traten; el buen amigo que eres; como eres tan bueno para animar a las personas aunque parezca que no jajaja (siempre las terminas haciendo reír, puedo juzgar tus métodos pero no tus resultados). <br><br> Amo que me cuentes cosas que recuerdas de mí, como el día que nos conocimos lo de los lentes o como me concentro, pero en general amo que me cuentes cualquier cosa. Me encanta que hablar contigo nunca se ha sentido forzado y que la conversación nunca termina, aunque de hecho también amo que los silencios contigo son muy cómodos. Amo lo segura que siempre me haces sentir, me encanta tu risa burlona, tu capacidad para no dejarme estar enojada contigo ni por 5 minutos. <br><br> Lo valiente que eres como para ser foráneo wtf (soy tu fan), tu olor, que tienes bien suavecito el cabello, como defiendes a tu barba de las chamacas jajaja (de hecho tú te ves bien de cualquier manera, síguete defendiendo). <br><br> Ya había dicho lo de buen amigo pero esq literal no sabía si estábamos coqueteando porque con todos eres igual de precioso y está bien bello eso. Aunque ya que andamos en esas, también amo que aunque eres bien bello con todos, aveces sí se notaban las diferencias que hacías conmigo y ni quien me aguantara la verdad. <br><br> Eso me lleva a que me encanta lo fácil que me puedes volar (cuando dije que tú me vuelas nomas con existir no estaba exagerando). Amo que por mucho tiempo no quise intentar nada con nadie porque ninguno valía la pena ni siquiera para conocerlos, pero contigo no tuve que hacer nada, solo convivir contigo y ya me tenías poniéndome celosa por una random siendo que literal no tenía ni tengo derecho sobre ti. <br><br> Amo que me enseñaras a manejar JAJAJA eres muy buen maestro mi amor, aquí la que falló fue la alumna. Amo que cuando choqué todavía te pusiste tú a tranquilizarme a mí cuando debió ser al revés. Amo que le hablaras a Jairo de mí como yo le hablé a Celeste de ti. Amo que confío en ti (lo de tóxica es una nueva actualización a la que me estoy acostumbrando y nomas es porque me encanta dejar claro que eres mío). Pero enserio confío en ti. <br><br> Ni de loca intentaría algo a distancia con alguien en quien no confío y eso también dice mucho de ti, ¿cómo le hiciste para que confiara tanto en tan poco tiempo? Pasa tips o algo. <br><br> Ya había dicho que tu olor? me vale, tu olor merece estar dos veces. Amo como cada vez te hacías más bueno abrazando pero a la vez me agüita porque ese último fue el mejor de todos y nunca hubiera querido tener un último. Amo que cada vez era más difícil soltarte o inventarme una excusa para abrazarte más. <br><br> Amo que me stalkees en todos lados, todas y cada una de las canciones que me dedicas, amo que cuando me dices algo cursi me dejes en blanco y lo único que me queda es decir una babosada, pero nunca dudes de lo mucho que me haces sentir con tus cursilerías. Por cierto amo que seas cursi conmigo y poder serlo contigo. <br><br> Amo traer tus sudaderas porque aparte de tu olor (si, se merece estar tres veces) me hacían sentir más cerca de ti. Amo que no te importe desvelarte para hablar conmigo, amo que ya era una de tus prioridades antes de ser más que amigos. Amo que estés intentando algo con alguien que no vas a ver en un año (te falla no?) pero gracias por eso.<br><br> Podría durar años escribiendo lo que amo de ti pero justamente ya me vas a marcar entonces prioridades corazón. Te lo resumo en que amo todo lo que eres y haces. Gracias por dejarme ser parte de la vida de una persona tan maravillosa como tú y espero de verdad poder seguir contigo cada año de tu vida y actualizarte esta carta. <br><br> Te quiero muchísimo más de lo que las palabras podrían decirte pero intentaré demostrártelo cada día. Espero que seas muy feliz pero no solo hoy, sino siempre. <br><br> Te quiero mi amor. <br><br> <b>PD:</b> Más te vale durarme hasta que estemos viejitos, ¿va que va?<br> <b>PD2:</b> Oye al parecer no se me dan tan mal las cartas eh, chécate eso 💙 </p> </div> </div>
-        <button class="boton-cerrar" onclick="cerrarSobre(event)">Cerrar sobre</button>
+  <div class="envelope-container" id="envelope" onclick="openEnvelope()">
+    <div class="envelope">
+      <div class="envelope-flap"></div>
+      <div class="letter">
+        <h2>Para Tii<span class="heart-emoji">💙</span></h2>
+        <p class="greeting">Hola mi amor</p>
+        <p> Hola mi amor, creo que esto de las cartas ya va a ser tradición (nomas espero que no sea porque estamos lejos) pero si no es por eso, me gusta la idea fíjate. Aunque no lo creas no soy tan cursi como para hacer cartas, osea si soy cursi al 1000 pero eso de dejar pruebas de que tengo sentimientos está canijo, aunque por ti lo vale y por eso estamos aquí. <br><br> Quiero que sepas que yo sé que tenemos muuy poquito tiempo de conocernos y que sí parece que omití intro pero la verdad me lo hiciste inevitable, así que técnicamente tú tienes la culpa si lo piensas. Cuando digo lo de lo inevitable es porque enserio eres una de las personas más hermosas que he conocido, no solo físicamente (también) sino tú, osea tienes una personalidad que desde el día uno de tratarte bien me hizo saber que serías alguien importante en mi vida (en ese momento no sabía en qué sentido pero quién soy yo para negarme). <br><br> Ya sé que tu lado chismoso quiere más detalles pero esq literal me gusta todo de ti, desde tus chistes malísimos que a la vez son buenísimos de lo malos que son; como siempre ayudas a todos aunque no te caigan bien nomas porque los tratas como te gustaría que te traten; el buen amigo que eres; como eres tan bueno para animar a las personas aunque parezca que no jajaja (siempre las terminas haciendo reír, puedo juzgar tus métodos pero no tus resultados). <br><br> Amo que me cuentes cosas que recuerdas de mí, como el día que nos conocimos lo de los lentes o como me concentro, pero en general amo que me cuentes cualquier cosa. Me encanta que hablar contigo nunca se ha sentido forzado y que la conversación nunca termina, aunque de hecho también amo que los silencios contigo son muy cómodos. Amo lo segura que siempre me haces sentir, me encanta tu risa burlona, tu capacidad para no dejarme estar enojada contigo ni por 5 minutos. <br><br> Lo valiente que eres como para ser foráneo wtf (soy tu fan), tu olor, que tienes bien suavecito el cabello, como defiendes a tu barba de las chamacas jajaja (de hecho tú te ves bien de cualquier manera, síguete defendiendo). <br><br> Ya había dicho lo de buen amigo pero esq literal no sabía si estábamos coqueteando porque con todos eres igual de precioso y está bien bello eso. Aunque ya que andamos en esas, también amo que aunque eres bien bello con todos, aveces sí se notaban las diferencias que hacías conmigo y ni quien me aguantara la verdad. <br><br> Eso me lleva a que me encanta lo fácil que me puedes volar (cuando dije que tú me vuelas nomas con existir no estaba exagerando). Amo que por mucho tiempo no quise intentar nada con nadie porque ninguno valía la pena ni siquiera para conocerlos, pero contigo no tuve que hacer nada, solo convivir contigo y ya me tenías poniéndome celosa por una random siendo que literal no tenía ni tengo derecho sobre ti. <br><br> Amo que me enseñaras a manejar JAJAJA eres muy buen maestro mi amor, aquí la que falló fue la alumna. Amo que cuando choqué todavía te pusiste tú a tranquilizarme a mí cuando debió ser al revés. Amo que le hablaras a Jairo de mí como yo le hablé a Celeste de ti. Amo que confío en ti (lo de tóxica es una nueva actualización a la que me estoy acostumbrando y nomas es porque me encanta dejar claro que eres mío). Pero enserio confío en ti. <br><br> Ni de loca intentaría algo a distancia con alguien en quien no confío y eso también dice mucho de ti, ¿cómo le hiciste para que confiara tanto en tan poco tiempo? Pasa tips o algo. <br><br> Ya había dicho que tu olor? me vale, tu olor merece estar dos veces. Amo como cada vez te hacías más bueno abrazando pero a la vez me agüita porque ese último fue el mejor de todos y nunca hubiera querido tener un último. Amo que cada vez era más difícil soltarte o inventarme una excusa para abrazarte más. <br><br> Amo que me stalkees en todos lados, todas y cada una de las canciones que me dedicas, amo que cuando me dices algo cursi me dejes en blanco y lo único que me queda es decir una babosada, pero nunca dudes de lo mucho que me haces sentir con tus cursilerías. Por cierto amo que seas cursi conmigo y poder serlo contigo. <br><br> Amo traer tus sudaderas porque aparte de tu olor (si, se merece estar tres veces) me hacían sentir más cerca de ti. Amo que no te importe desvelarte para hablar conmigo, amo que ya era una de tus prioridades antes de ser más que amigos. Amo que estés intentando algo con alguien que no vas a ver en un año (te falla no?) pero gracias por eso.<br><br> Podría durar años escribiendo lo que amo de ti pero justamente ya me vas a marcar entonces prioridades corazón. Te lo resumo en que amo todo lo que eres y haces. Gracias por dejarme ser parte de la vida de una persona tan maravillosa como tú y espero de verdad poder seguir contigo cada año de tu vida y actualizarte esta carta. <br><br> Te quiero muchísimo más de lo que las palabras podrían decirte pero intentaré demostrártelo cada día. Espero que seas muy feliz pero no solo hoy, sino siempre. <br><br> Te quiero mi amor. <br><br> <b>PD:</b> Más te vale durarme hasta que estemos viejitos, ¿va que va?<br> <b>PD2:</b> Oye al parecer no se me dan tan mal las cartas eh, chécate eso 💙 </p>
+        <button class="close-btn" onclick="closeEnvelope(event)">Cerrar 💌</button>
+      </div>
     </div>
-</div>
+    <span class="click-hint">✨ Click para abrir ✨</span>
+  </div>
 
-<!-- Confetti.js -->
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-
-<script>
-const contenedor = document.getElementById('contenedor');
-
-function abrirSobre() {
-    if(!contenedor.classList.contains('abierto')){
-        contenedor.classList.add('abierto');
+  <script>
+    const colors = ['#4a8bc4', '#87ceeb', '#5a9fd4', '#6bb3d9', '#1e90ff', '#00bfff', '#add8e6', '#b0e0e6'];
+    const shapes = ['circle', 'square', 'triangle'];
+    
+    function createConfetti() {
+      for (let i = 0; i < 50; i++) {
+        setTimeout(() => {
+          const confetti = document.createElement('div');
+          confetti.className = 'confetti';
+          confetti.style.left = Math.random() * 100 + 'vw';
+          confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+          confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+          confetti.style.animationDelay = Math.random() * 0.5 + 's';
+          
+          const shape = shapes[Math.floor(Math.random() * shapes.length)];
+          if (shape === 'circle') {
+            confetti.style.borderRadius = '50%';
+          } else if (shape === 'triangle') {
+            confetti.style.width = '0';
+            confetti.style.height = '0';
+            confetti.style.borderLeft = '5px solid transparent';
+            confetti.style.borderRight = '5px solid transparent';
+            confetti.style.borderBottom = '10px solid ' + colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.backgroundColor = 'transparent';
+          }
+          
+          confetti.style.width = (Math.random() * 10 + 5) + 'px';
+          confetti.style.height = (Math.random() * 10 + 5) + 'px';
+          
+          document.body.appendChild(confetti);
+          
+          setTimeout(() => confetti.classList.add('active'), 10);
+          
+          setTimeout(() => confetti.remove(), 3500);
+        }, i * 30);
+      }
     }
-}
-
-// Evitar que el clic en botón cierre al propagarse al contenedor
-function cerrarSobre(e){
-    e.stopPropagation();
-    contenedor.classList.remove('abierto');
-
-    // Posición del sobre para el confeti
-    const rect = contenedor.getBoundingClientRect();
-    const x = (rect.left + rect.right) / 2 / window.innerWidth;
-    const y = rect.top / window.innerHeight;
-
-    // Confeti desde el sobre
-    confetti({
-        particleCount: 120,
-        startVelocity: 30,
-        spread: 120,
-        origin: { x: x, y: y },
-        colors: ['#f94144','#f3722c','#f8961e','#90be6d','#577590','#43aa8b']
-    });
-}
-</script>
-
+    
+    function openEnvelope() {
+      const envelope = document.getElementById('envelope');
+      if (!envelope.classList.contains('open')) {
+        envelope.classList.add('open');
+      }
+    }
+    
+    function closeEnvelope(event) {
+      event.stopPropagation();
+      const envelope = document.getElementById('envelope');
+      envelope.classList.remove('open');
+      createConfetti();
+    }
+  </script>
 </body>
 </html>
-
-
